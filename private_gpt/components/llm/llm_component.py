@@ -14,6 +14,15 @@ class LLMComponent:
     @inject
     def __init__(self) -> None:
         match settings.llm.mode:
+            case "lm_studio":
+                from llama_index.llms import OpenAI
+
+                # Assuming OpenAI class can be modified to accept a custom base URL
+                self.llm = OpenAI(
+                    api_key="",  # API key is not needed for LM Studio server
+                    base_url="http://localhost:5000/v1"
+                )
+        match settings.llm.mode:
             case "local":
                 from llama_index.llms import LlamaCPP
 
